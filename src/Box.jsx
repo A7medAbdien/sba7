@@ -17,7 +17,13 @@ export default function Box(props) {
     })
 
     return <>
-        <mesh ref={mesh} {...props}>
+        <mesh
+            ref={mesh}
+            {...props}
+            onClick={(e) => {
+                console.log(e.object.rotation);
+            }}
+        >
             <boxGeometry args={[2, 2.5, 1]} />
             <meshNormalMaterial />
         </mesh>
