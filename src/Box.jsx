@@ -9,14 +9,13 @@ export default function Box(props) {
     const scroll = useScroll()
     const mesh = useRef()
 
-    // console.log(scroll)
     useFrame((state, delta) => {
         const offset = 1 - scroll.offset
         state.camera.position.y = - scroll.offset * 16
         mesh.current.rotation.x = scroll.offset * Math.PI * 2
         mesh.current.rotation.y = scroll.offset * Math.PI * 2
-        // state.camera.lookAt(0, 0, 0)
     })
+
     return <>
         <mesh ref={mesh} {...props}>
             <boxGeometry args={[2, 2.5, 1]} />
