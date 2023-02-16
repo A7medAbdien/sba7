@@ -1,16 +1,29 @@
+import { Canvas } from '@react-three/fiber'
 import { ScrollControls } from '@react-three/drei'
-import { useEffect } from 'react'
 import Boxes from './Boxes'
-import ReactDOM from 'react-dom/client'
-
+import { Perf } from 'r3f-perf'
 
 export default function Experience() {
-    return <>
-        {/* <OrbitControls makeDefault /> */}
-        <axesHelper args={[2, 2, 2]} />
+    // const goNext = () => {
+    //     console.log('ih');
+    // }
 
-        <ScrollControls pages={5}>
-            <Boxes count={5} />
-        </ScrollControls>
+    return <>
+        <Canvas
+            // onWheel={(e) => goNext()}
+            camera={{
+                fov: 45,
+                near: 0.1,
+                far: 100,
+                // position: [ -3, 1.5, 4 ]
+            }}
+        >
+            <Perf position='top-left' />
+            <axesHelper args={[2, 2, 2]} />
+
+            <ScrollControls pages={5}>
+                <Boxes count={5} />
+            </ScrollControls>
+        </Canvas>
     </>
 }
