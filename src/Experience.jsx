@@ -6,7 +6,7 @@ import { Perf } from 'r3f-perf'
 import { useRef } from 'react'
 
 export default function Experience() {
-    let theta = 0
+    let theta = 72
     let { x, y } = getCoordinates(theta, 3)
     const mesh = useRef()
     const roll = (e) => {
@@ -22,6 +22,11 @@ export default function Experience() {
         const { x, y } = getCoordinates(theta, 3)
         mesh.current.position.x = x
         mesh.current.position.y = y
+        console.log({
+            theta: theta,
+            rX: mesh.current.rotation.x,
+            rY: mesh.current.rotation.y
+        });
 
     }
 
@@ -43,6 +48,8 @@ export default function Experience() {
                 ref={mesh}
                 position-x={x}
                 position-y={y}
+                rotation-x={3.6}
+                rotation-y={3.6}
             >
                 <boxGeometry args={[2, 2.5, 1]} />
                 <Html>
