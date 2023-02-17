@@ -4,7 +4,6 @@ import Box from "./Box"
 export default function Boxes({ count }) {
     let i = -1
     const theta = 360 / count
-
     return <>{
         [...Array(count)].map(() => {
             i++

@@ -1,30 +1,24 @@
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, ScrollControls } from '@react-three/drei'
+import { OrbitControls } from '@react-three/drei'
 import Boxes from './Boxes'
 import { Perf } from 'r3f-perf'
 
 export default function Experience() {
-    // const goNext = () => {
-    //     console.log('ih');
-    // }
-
     return <>
         <Canvas
-            // onWheel={(e) => goNext()}
+            onWheel={(e) => console.log(e)}
             camera={{
                 fov: 45,
                 near: 0.1,
                 far: 100,
-                // position: [ -3, 1.5, 4 ]
+                position: [0, 0, 9]
             }}
         >
-            <OrbitControls />
+            {/* <OrbitControls /> */}
             <Perf position='top-left' />
             <axesHelper args={[2, 2, 2]} />
 
-            <ScrollControls pages={5}>
-                <Boxes count={5} />
-            </ScrollControls>
+            <Boxes count={5} />
         </Canvas>
     </>
 }
