@@ -11,18 +11,18 @@ export default function Experience() {
     return <>
         <Canvas
             camera={{
-                fov: 45,
+                fov: 40,
                 near: 0.1,
-                far: 100,
-                position: [0, 0, 9]
+                far: 20,
+                position: [0, 0, 2]
             }}
             onWheel={(e) => {
                 setTrigger(e);
             }}
         >
-            <OrbitControls />
+            {/* <OrbitControls /> */}
             <Perf position='top-left' />
-            <axesHelper args={[2, 2, 2]} />
+            {/* <axesHelper args={[2, 2, 2]} /> */}
 
             <Boxes trigger={trigger} count={5} />
         </Canvas>

@@ -44,7 +44,7 @@ export default function Boxes({ count, trigger }) {
 
         {[...Array(count)].map(() => {
             i++
-            let { x, y } = getCoordinates(i * theta, 3)
+            let { x, y } = getCoordinates(i * theta)
 
             return <Box
                 trigger={trigger}
@@ -60,11 +60,3 @@ export default function Boxes({ count, trigger }) {
         })}
     </>
 };
-
-// export const getCoordinates = (angle, distance = 1) => {
-//     angle *= Math.PI / 180
-//     let x = distance * Math.cos(angle),
-//         y = distance * Math.sin(angle)
-
-//     return { x, y }
-// }
