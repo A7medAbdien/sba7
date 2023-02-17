@@ -45,7 +45,7 @@ export default function Experience() {
             <Perf position='top-left' />
             <axesHelper args={[2, 2, 2]} />
 
-            <mesh
+            {/* <mesh
                 ref={mesh}
                 position-x={x}
                 position-y={y}
@@ -57,9 +57,9 @@ export default function Experience() {
                     {theta}
                 </Html>
                 <meshNormalMaterial />
-            </mesh>
+            </mesh> */}
 
-            {/* <Boxes count={5} /> */}
+            <Boxes count={5} />
         </Canvas>
     </>
 }

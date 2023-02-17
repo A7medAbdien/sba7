@@ -13,6 +13,8 @@ export default function Boxes({ count }) {
                 key={i}
                 position-x={x}
                 position-y={y}
+                rotation-x={3.6 * i}
+                rotation-y={3.6 * i}
                 scale={0.5}
 
                 onClick={(e) => {
