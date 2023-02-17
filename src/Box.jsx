@@ -1,31 +1,58 @@
-import { useScroll } from '@react-three/drei'
-import { useFrame } from '@react-three/fiber'
-import { useRef } from 'react'
-import * as THREE from 'three';
-
+import { useEffect, useRef, useState } from 'react'
+import { Html } from "@react-three/drei"
 
 export default function Box(props) {
 
-    const scroll = useScroll()
+    let { trigger } = props
+    const [theta, setTheta] = useState(props.bTheta);
+    console.log(theta);
+
+    useEffect(() => {
+        if (trigger) {
+            roll(trigger);
+        }
+    }, [trigger]);
+
     const mesh = useRef()
 
-    useFrame((state, delta) => {
-        const offset = 1 - scroll.offset
-        state.camera.position.y = - scroll.offset * 16
-        mesh.current.rotation.x = scroll.offset * Math.PI * 2
-        mesh.current.rotation.y = scroll.offset * Math.PI * 2
-    })
+    const roll = (e) => {
+        if (e.altKey) {
+            setTheta((theta) => (theta - 2) % 360)
+            mesh.current.rotation.x -= 0.1
+            mesh.current.rotation.y -= 0.1
+        } else {
+            setTheta((theta) => (theta + 2) % 360)
+            mesh.current.rotation.x += 0.1
+            mesh.current.rotation.y += 0.1
+        }
+        const { x, y } = getCoordinates(theta, 3)
+        mesh.current.position.x = x
+        mesh.current.position.y = y
+        if (theta == 0)
+            console.log({
+                theta: theta,
+                rX: mesh.current.rotation.x,
+                rY: mesh.current.rotation.y
+            });
+
+    }
 
     return <>
         <mesh
             ref={mesh}
             {...props}
-            onClick={(e) => {
-                console.log(e.object.rotation);
-            }}
         >
             <boxGeometry args={[2, 2.5, 1]} />
             <meshNormalMaterial />
         </mesh>
     </>
 };
+
+
+export const getCoordinates = (angle, distance = 1) => {
+    angle *= Math.PI / 180
+    let x = distance * Math.cos(angle),
+        y = distance * Math.sin(angle)
+
+    return { x, y }
+}

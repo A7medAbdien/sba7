@@ -1,33 +1,25 @@
-import { Html } from "@react-three/drei"
 import Box from "./Box"
 
-export default function Boxes({ count }) {
+export default function Boxes({ count, trigger }) {
+
     let i = -1
     const theta = 360 / count
+
     return <>{
         [...Array(count)].map(() => {
             i++
             let { x, y } = getCoordinates(i * theta, 3)
-            // console.log(i * theta, x, y);
-            return <mesh
+
+            return <Box
+                trigger={trigger}
+                bTheta={i * theta}
                 key={i}
                 position-x={x}
                 position-y={y}
                 rotation-x={3.6 * i}
                 rotation-y={3.6 * i}
                 scale={0.5}
-
-                onClick={(e) => {
-                    console.log(e.object);
-                }}
-
-            >
-                <Html>
-                    {i * theta}
-                </Html>
-                <boxGeometry args={[2, 2.5, 1]} />
-                <meshNormalMaterial />
-            </mesh>
+            />
         })
     }
     </>
