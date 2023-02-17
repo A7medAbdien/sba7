@@ -15,22 +15,20 @@ export default function Box(props) {
 
     const roll = (e) => {
         const { x, y } = getCoordinates(theta, 3)
-        if (e.altKey) {
-            setTheta((theta) => (theta - 2) % 360)
-            mesh.current.rotation.x = x - 3
-            mesh.current.rotation.y = -y
-        } else {
+
+        e.altKey ?
+            setTheta((theta) => (theta - 2) % 360) :
             setTheta((theta) => (theta + 2) % 360)
-            mesh.current.rotation.x = x - 3
-            mesh.current.rotation.y = -y
-        }
-        mesh.current.position.x = x
+        mesh.current.rotation.z = x + 3
+        mesh.current.rotation.y = -y
+        mesh.current.position.z = x
         mesh.current.position.y = y
         if (color == 0) {
             console.log({
                 theta: color,
                 rX: mesh.current.rotation.x,
-                rY: mesh.current.rotation.y
+                rY: mesh.current.rotation.y,
+                rZ: mesh.current.rotation.z,
             });
         }
     }
@@ -49,8 +47,8 @@ export default function Box(props) {
 
 export const getCoordinates = (angle, distance = 1) => {
     angle *= Math.PI / 180
-    let x = distance * Math.cos(angle),
-        y = distance * Math.sin(angle)
+    let x = -distance * Math.cos(angle),
+        y = -distance * Math.sin(angle)
 
     return { x, y }
 }
