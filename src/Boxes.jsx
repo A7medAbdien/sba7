@@ -8,7 +8,7 @@ export default function Boxes({ count }) {
         [...Array(count)].map(() => {
             i++
             let { x, y } = getCoordinates(i * theta, 3)
-            console.log(i * theta, x, y);
+            // console.log(i * theta, x, y);
             return <mesh
                 key={i}
                 position-x={x}
