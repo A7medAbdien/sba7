@@ -10,10 +10,19 @@ export default function Experience() {
     let { x, y } = getCoordinates(theta, 3)
     const mesh = useRef()
     const roll = (e) => {
-        e.altKey ? theta -= 2 : theta += 2;
+        if (e.altKey) {
+            theta -= 2
+            mesh.current.rotation.x -= 0.1
+            mesh.current.rotation.y -= 0.1
+        } else {
+            theta += 2
+            mesh.current.rotation.x += 0.1
+            mesh.current.rotation.y += 0.1
+        }
         const { x, y } = getCoordinates(theta, 3)
         mesh.current.position.x = x
         mesh.current.position.y = y
+
     }
 
     return <>
@@ -35,7 +44,7 @@ export default function Experience() {
                 position-x={x}
                 position-y={y}
             >
-                <boxGeometry />
+                <boxGeometry args={[2, 2.5, 1]} />
                 <Html>
                     {theta}
                 </Html>
