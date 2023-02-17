@@ -31,7 +31,7 @@ export default function Boxes({ count }) {
     </>
 };
 
-const getCoordinates = (angle, distance = 1) => {
+export const getCoordinates = (angle, distance = 1) => {
     angle *= Math.PI / 180
     let x = distance * Math.cos(angle),
         y = distance * Math.sin(angle)
