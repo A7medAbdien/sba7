@@ -14,13 +14,13 @@ export default function Experience() {
                 fov: 45,
                 near: 0.1,
                 far: 100,
-                position: [0, 0, 3]
+                position: [0, 0, 9]
             }}
             onWheel={(e) => {
                 setTrigger(e);
             }}
         >
-            {/* <OrbitControls /> */}
+            <OrbitControls />
             <Perf position='top-left' />
             <axesHelper args={[2, 2, 2]} />
 
