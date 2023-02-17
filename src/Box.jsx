@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import { Html } from "@react-three/drei"
 
 export default function Box(props) {
 
-    let { trigger } = props
+    let { trigger, color } = props
     const [theta, setTheta] = useState(props.bTheta);
+    // const [theta, setTheta] = useState(props.color);
     console.log(theta);
 
     useEffect(() => {
@@ -43,7 +43,7 @@ export default function Box(props) {
             {...props}
         >
             <boxGeometry args={[2, 2.5, 1]} />
-            <meshNormalMaterial />
+            <meshBasicMaterial color={`rgb(${color + 100},0,0)`} />
         </mesh>
     </>
 };

@@ -13,6 +13,7 @@ export default function Boxes({ count, trigger }) {
             return <Box
                 trigger={trigger}
                 bTheta={i * theta}
+                color={i * theta}
                 key={i}
                 position-x={x}
                 position-y={y}
