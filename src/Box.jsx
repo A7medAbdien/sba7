@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-
+import { Float } from '@react-three/drei'
 export default function Box(props) {
 
     let { trigger, color } = props
@@ -34,13 +34,19 @@ export default function Box(props) {
     }
 
     return <>
-        <mesh
-            ref={mesh}
-            {...props}
+        <Float
+            speed={1.5}
+            rotationIntensity={0.5}
+            floatingRange={[0, 0.01]}
         >
-            <boxGeometry args={[2, 2.5, 1]} />
-            <meshStandardMaterial color={`rgb(${color + 100},0,0)`} />
-        </mesh>
+            <mesh
+                ref={mesh}
+                {...props}
+            >
+                <boxGeometry args={[2, 2.5, 1]} />
+                <meshStandardMaterial color={`rgb(${color + 100},0,0)`} />
+            </mesh>
+        </Float>
     </>
 };
 

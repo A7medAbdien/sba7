@@ -21,7 +21,7 @@ export default function Experience() {
             }}
         >
             {/* <OrbitControls /> */}
-            <Perf position='top-left' />
+            {/* <Perf position='top-left' /> */}
             {/* <axesHelper args={[2, 2, 2]} /> */}
 
             <Boxes trigger={trigger} count={5} />
