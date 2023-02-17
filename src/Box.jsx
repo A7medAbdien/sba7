@@ -4,8 +4,6 @@ export default function Box(props) {
 
     let { trigger, color } = props
     const [theta, setTheta] = useState(props.bTheta);
-    // const [theta, setTheta] = useState(props.color);
-    console.log(theta);
 
     useEffect(() => {
         if (trigger) {
@@ -16,25 +14,25 @@ export default function Box(props) {
     const mesh = useRef()
 
     const roll = (e) => {
+        const { x, y } = getCoordinates(theta, 3)
         if (e.altKey) {
             setTheta((theta) => (theta - 2) % 360)
-            mesh.current.rotation.x -= 0.1
-            mesh.current.rotation.y -= 0.1
+            mesh.current.rotation.x = x - 3
+            mesh.current.rotation.y = -y
         } else {
             setTheta((theta) => (theta + 2) % 360)
-            mesh.current.rotation.x += 0.1
-            mesh.current.rotation.y += 0.1
+            mesh.current.rotation.x = x - 3
+            mesh.current.rotation.y = -y
         }
-        const { x, y } = getCoordinates(theta, 3)
         mesh.current.position.x = x
         mesh.current.position.y = y
-        if (theta == 0)
+        if (color == 0) {
             console.log({
-                theta: theta,
+                theta: color,
                 rX: mesh.current.rotation.x,
                 rY: mesh.current.rotation.y
             });
-
+        }
     }
 
     return <>
