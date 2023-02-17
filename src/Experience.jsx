@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber'
-import { ScrollControls } from '@react-three/drei'
+import { OrbitControls, ScrollControls } from '@react-three/drei'
 import Boxes from './Boxes'
 import { Perf } from 'r3f-perf'
 
@@ -18,6 +18,7 @@ export default function Experience() {
                 // position: [ -3, 1.5, 4 ]
             }}
         >
+            <OrbitControls />
             <Perf position='top-left' />
             <axesHelper args={[2, 2, 2]} />
 
