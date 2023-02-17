@@ -41,7 +41,7 @@ export default function Box(props) {
             {...props}
         >
             <boxGeometry args={[2, 2.5, 1]} />
-            <meshBasicMaterial color={`rgb(${color + 100},0,0)`} />
+            <meshStandardMaterial color={`rgb(${color + 100},0,0)`} />
         </mesh>
     </>
 };
