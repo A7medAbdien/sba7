@@ -39,6 +39,7 @@ export default function Boxes({ count, trigger }) {
             distance={15}
             intensity={10}
             target-position={[target.x, target.y, target.z]}
+            penumbra={0.3}
         />
         <ambientLight intensity={0.1} />
 
