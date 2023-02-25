@@ -1,8 +1,9 @@
 import { Float, useHelper } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
+import gsap from 'gsap';
 import { useControls } from 'leva';
 import { useEffect, useRef, useState } from 'react';
-import { SpotLightHelper } from 'three';
+import { SpotLightHelper, Vector3 } from 'three';
 
 const getCoordinates = (angle, distance = 6) => {
     angle *= Math.PI / 180
@@ -25,15 +26,30 @@ const Box = ({ onWheel, color, bTheta, ...props }) => {
     const mesh = useRef()
 
     const roll = (e) => {
-        e.altKey ?
-            setTheta((theta) => (theta - 2) % 360) :
-            setTheta((theta) => (theta + 2) % 360)
+
+        setTheta((theta) => (theta + 360 / 5) % 360)
         // console.log(theta);
         const { x, y: z } = getCoordinates(theta)
-
-        mesh.current.rotation.y = x / 2
-        mesh.current.position.x = x
-        mesh.current.position.z = z
+        gsap.to(
+            mesh.current.rotation,
+            {
+                duration: 1.5,
+                ease: 'power2.inOut',
+                y: x / 2,
+            }
+        )
+        gsap.to(
+            mesh.current.position,
+            {
+                duration: 1.5,
+                ease: 'power2.inOut',
+                x: x,
+                z: z
+            }
+        )
+        // mesh.current.rotation.y = x / 2
+        // mesh.current.position.x = x
+        // mesh.current.position.z = z
 
         // if (color == 0) {
         //     console.log({

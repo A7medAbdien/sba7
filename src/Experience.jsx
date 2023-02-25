@@ -14,8 +14,8 @@ export default function Experience() {
                 fov: 40,
                 near: 0.1,
                 far: 20,
-                // position: [0, 8, 5]
-                position: [0, 0, 2]
+                position: [0, 8, 5]
+                // position: [0, 0, 2]
             }}
             onWheel={(e) => {
                 setWheelListener(e);
