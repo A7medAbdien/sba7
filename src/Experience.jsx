@@ -22,7 +22,7 @@ export default function Experience() {
             }}
         >
             {/* <OrbitControls /> */}
-            {/* <Perf position='top-left' /> */}
+            <Perf position='top-left' />
 
 
             <ambientLight intensity={5} />

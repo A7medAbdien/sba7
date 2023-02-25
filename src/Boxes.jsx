@@ -1,4 +1,5 @@
 import { Float, useHelper } from '@react-three/drei';
+import { useFrame, useThree } from '@react-three/fiber';
 import { useControls } from 'leva';
 import { useEffect, useRef, useState } from 'react';
 import { SpotLightHelper } from 'three';
@@ -27,12 +28,13 @@ const Box = ({ onWheel, color, bTheta, ...props }) => {
         e.altKey ?
             setTheta((theta) => (theta - 2) % 360) :
             setTheta((theta) => (theta + 2) % 360)
-
+        // console.log(theta);
         const { x, y: z } = getCoordinates(theta)
 
         mesh.current.rotation.y = x / 2
         mesh.current.position.x = x
         mesh.current.position.z = z
+
         // if (color == 0) {
         //     console.log({
         //         theta: color,
@@ -42,6 +44,17 @@ const Box = ({ onWheel, color, bTheta, ...props }) => {
         //     });
         // }
     }
+
+    // useFrame((state, delta) => {
+
+    //     setTheta((theta) => (theta + delta * 20) % 360)
+    //     // console.log(theta);
+    //     const { x, y: z } = getCoordinates(theta)
+
+    //     mesh.current.rotation.y = x / 2
+    //     mesh.current.position.x = x
+    //     mesh.current.position.z = z
+    // })
 
     return <>
 
