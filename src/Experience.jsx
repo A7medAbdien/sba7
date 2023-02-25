@@ -56,7 +56,7 @@ export default function Experience() {
         const element = scrollRef.current;
 
         element.addEventListener('scroll', handleClick);
-    })
+    }, [])
 
     return <>
         <Canvas
