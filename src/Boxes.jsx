@@ -14,7 +14,6 @@ const getCoordinates = (angle, distance = 6) => {
 }
 
 const Box = ({ onWheel, color, bTheta, ...props }) => {
-
     const mesh = useRef()
     const [theta, setTheta] = useState(bTheta);
 
@@ -40,13 +39,9 @@ const Box = ({ onWheel, color, bTheta, ...props }) => {
         )
     }
 
-
     useEffect(() => {
-        if (onWheel) {
-            roll(onWheel);
-        }
+        roll();
     }, [onWheel]);
-
 
     return <>
         <mesh ref={mesh} {...props}>
