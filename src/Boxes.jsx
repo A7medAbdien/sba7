@@ -28,7 +28,6 @@ const Box = ({ onWheel, color, bTheta, ...props }) => {
     const roll = (e) => {
 
         setTheta((theta) => (theta + 360 / 5) % 360)
-        // console.log(theta);
         const { x, y: z } = getCoordinates(theta)
         gsap.to(
             mesh.current.rotation,
@@ -47,30 +46,8 @@ const Box = ({ onWheel, color, bTheta, ...props }) => {
                 z: z
             }
         )
-        // mesh.current.rotation.y = x / 2
-        // mesh.current.position.x = x
-        // mesh.current.position.z = z
-
-        // if (color == 0) {
-        //     console.log({
-        //         theta: color,
-        //         rX: mesh.current.rotation.x,
-        //         rY: mesh.current.rotation.y,
-        //         rZ: mesh.current.rotation.z,
-        //     });
-        // }
     }
 
-    // useFrame((state, delta) => {
-
-    //     setTheta((theta) => (theta + delta * 20) % 360)
-    //     // console.log(theta);
-    //     const { x, y: z } = getCoordinates(theta)
-
-    //     mesh.current.rotation.y = x / 2
-    //     mesh.current.position.x = x
-    //     mesh.current.position.z = z
-    // })
 
     return <>
 
