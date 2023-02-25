@@ -14,14 +14,14 @@ const getCoordinates = (angle, distance = 6) => {
 }
 
 const Box = forwardRef(({ onWheel, color, bTheta, ...props }, ref) => {
-    const mesh = useRef()
+
     const [theta, setTheta] = useState(bTheta);
 
-    const roll = (e) => {
-        setTheta((theta) => (theta + 360 / 5) % 360)
+    const roll = (theta) => {
+        console.log(theta);
         const { x, y: z } = getCoordinates(theta)
         gsap.to(
-            mesh.current.rotation,
+            ref.current.rotation,
             {
                 duration: 1.5,
                 ease: 'power2.inOut',
@@ -29,7 +29,7 @@ const Box = forwardRef(({ onWheel, color, bTheta, ...props }, ref) => {
             }
         )
         gsap.to(
-            mesh.current.position,
+            ref.current.position,
             {
                 duration: 1.5,
                 ease: 'power2.inOut',
@@ -40,11 +40,12 @@ const Box = forwardRef(({ onWheel, color, bTheta, ...props }, ref) => {
     }
 
     useEffect(() => {
-        roll();
+        setTheta((theta) => theta.map((t) => (t + 360 / 5) % 360))
+        roll(theta);
     }, [onWheel]);
 
     return <>
-        <mesh ref={mesh} {...props}>
+        <mesh ref={ref} {...props}>
             <boxGeometry args={[2, 2.5, 1]} />
             <meshStandardMaterial metalness={0} roughness={0} color={`rgb(${color + 100},0,0)`} />
         </mesh>
@@ -58,7 +59,7 @@ export const Boxes = ({ count, onWheel }) => {
     );
 
     const theta = 360 / count
-
+    const bTheta = Array.from({ length: count }).map((r, i) => i * theta)
     return <>
         <ScrollControls>
             {refs.current.map((ref, i) => {
@@ -67,7 +68,7 @@ export const Boxes = ({ count, onWheel }) => {
                 return <Box
                     ref={ref}
                     onWheel={onWheel}
-                    bTheta={i * theta}
+                    bTheta={bTheta}
                     color={i * theta}
                     key={i}
                     position-x={x}
