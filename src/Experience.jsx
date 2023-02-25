@@ -13,8 +13,8 @@ export default function Experience() {
             camera={{
                 fov: 40,
                 near: 0.1,
-                far: 20,
-                position: [0, 8, 5]
+                far: 100,
+                position: [0, 20, 5]
                 // position: [0, 0, 2]
             }}
             onWheel={(e) => {

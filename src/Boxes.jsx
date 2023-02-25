@@ -76,7 +76,7 @@ export const Boxes = ({ count, onWheel }) => {
                 key={i}
                 position-x={x}
                 position-z={y}
-                rotation-y={Math.PI * i}
+                rotation-y={x / 2}
                 scale={1}
             />
         })}
