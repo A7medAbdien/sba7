@@ -1,12 +1,22 @@
 import { OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber'
 import { Perf } from 'r3f-perf'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Boxes } from './Boxes'
 
 
 export default function Experience() {
     const [wheelListener, setWheelListener] = useState();
+    const ref = useRef()
+    useEffect(() => {
+        const handleClick = event => {
+            console.log('Button clicked');
+        };
+
+        const element = ref.current;
+
+        element.addEventListener('scroll', handleClick);
+    })
 
     return <>
         <Canvas
@@ -30,6 +40,12 @@ export default function Experience() {
 
             <Boxes onWheel={wheelListener} count={5} />
         </Canvas>
+        <div
+            ref={ref}
+            // onScroll={(e) => (console.log('helo'))}
+            className="scroll">
+            <div style={{ height: `200vh`, pointerEvents: 'none' }}></div>
+        </div>
     </>
 }
 
