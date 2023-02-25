@@ -37,20 +37,24 @@ const roll = (theta, ref) => {
 export default function Experience() {
     const count = 5
     const baseTheta = 360 / count
-    const boxesTheta = Array.from({ length: count }).map((r, i) => i * baseTheta)
+    let boxesTheta = Array.from({ length: count }).map((r, i) => i * baseTheta)
 
     const refs = useRef(
         Array.from({ length: count }).map(() => createRef())
     )
     const scrollRef = useRef()
 
-    const [theta, setTheta] = useState(boxesTheta);
-
     useEffect(() => {
         const handleClick = event => {
-            console.log('Button clicked')
-            setTheta((theta) => theta.map((t) => (t + 360 / 5) % 360))
-            refs.current.map((ref, i) => roll(theta[i], ref))
+
+            element.removeEventListener('scroll', handleClick);
+
+            boxesTheta.map((t, i) => { boxesTheta[i] = (t + 360 / 5) % 360 })
+            refs.current.map((ref, i) => roll(boxesTheta[i], ref))
+
+            setTimeout(() => {
+                element.addEventListener('scroll', handleClick);
+            }, 2000);
         };
 
         const element = scrollRef.current;
