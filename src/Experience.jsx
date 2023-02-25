@@ -59,13 +59,7 @@ export default function Experience() {
     }, [])
 
     return <>
-        <Canvas
-            camera={{ position: [0, 20, 5] }}
-            onWheel={(e) => {
-                setTheta((theta) => theta.map((t) => (t + 360 / 5) % 360))
-                refs.current.map((ref, i) => roll(theta[i], ref))
-            }}
-        >
+        <Canvas camera={{ position: [0, 20, 5] }}>
             {/* <OrbitControls /> */}
             <Perf position='top-left' />
 
