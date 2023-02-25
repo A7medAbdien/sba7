@@ -40,11 +40,13 @@ export default function Experience() {
 
             <Boxes onWheel={wheelListener} count={5} />
         </Canvas>
-        <div
-            ref={ref}
-            // onScroll={(e) => (console.log('helo'))}
-            className="scroll">
-            <div style={{ height: `200vh`, pointerEvents: 'none' }}></div>
+        <div className="container">
+            <div
+                ref={ref}
+                // onScroll={(e) => (console.log('helo'))}
+                className="scroll">
+                <div style={{ height: `200vh`, pointerEvents: 'none' }}></div>
+            </div>
         </div>
     </>
 }
