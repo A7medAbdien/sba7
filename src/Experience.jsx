@@ -8,15 +8,15 @@ import { Boxes } from './Boxes'
 export default function Experience() {
     const [wheelListener, setWheelListener] = useState();
     const ref = useRef()
-    useEffect(() => {
-        const handleClick = event => {
-            console.log('Button clicked');
-        };
+    // useEffect(() => {
+    //     const handleClick = event => {
+    //         console.log('Button clicked');
+    //     };
 
-        const element = ref.current;
+    //     const element = ref.current;
 
-        element.addEventListener('scroll', handleClick);
-    })
+    //     element.addEventListener('scroll', handleClick);
+    // })
 
     return <>
         <Canvas
@@ -40,14 +40,14 @@ export default function Experience() {
 
             <Boxes onWheel={wheelListener} count={5} />
         </Canvas>
-        <div className="container">
+        {/* <div className="container">
             <div
                 ref={ref}
                 // onScroll={(e) => (console.log('helo'))}
                 className="scroll">
                 <div style={{ height: `200vh`, pointerEvents: 'none' }}></div>
             </div>
-        </div>
+        </div> */}
     </>
 }
 
