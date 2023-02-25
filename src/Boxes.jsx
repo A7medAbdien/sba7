@@ -2,7 +2,7 @@ import { Float, ScrollControls, useHelper } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
 import gsap from 'gsap';
 import { useControls } from 'leva';
-import { useEffect, useRef, useState } from 'react';
+import { createRef, forwardRef, useEffect, useRef, useState } from 'react';
 import { SpotLightHelper, Vector3 } from 'three';
 
 const getCoordinates = (angle, distance = 6) => {
@@ -13,7 +13,7 @@ const getCoordinates = (angle, distance = 6) => {
     return { x, y, distance }
 }
 
-const Box = ({ onWheel, color, bTheta, ...props }) => {
+const Box = forwardRef(({ onWheel, color, bTheta, ...props }, ref) => {
     const mesh = useRef()
     const [theta, setTheta] = useState(bTheta);
 
@@ -49,18 +49,23 @@ const Box = ({ onWheel, color, bTheta, ...props }) => {
             <meshStandardMaterial metalness={0} roughness={0} color={`rgb(${color + 100},0,0)`} />
         </mesh>
     </>
-};
+})
 
 
 export const Boxes = ({ count, onWheel }) => {
+    const refs = useRef(
+        Array.from({ length: count }).map(() => createRef())
+    );
+
     const theta = 360 / count
 
     return <>
         <ScrollControls>
-            {[...Array(count)].map((ref, i) => {
+            {refs.current.map((ref, i) => {
                 let { x, y } = getCoordinates(i * theta)
 
                 return <Box
+                    ref={ref}
                     onWheel={onWheel}
                     bTheta={i * theta}
                     color={i * theta}
