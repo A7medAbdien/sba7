@@ -13,8 +13,19 @@ const getCoordinates = (angle, distance = 6) => {
     return { x, y, distance }
 }
 
+export default function Experience() {
+    const [wheelListener, setWheelListener] = useState();
+    const ref = useRef()
+    const count = 5
+    // useEffect(() => {
+    //     const handleClick = event => {
+    //         console.log('Button clicked');
+    //     };
 
-export const Boxes = ({ count, onWheel }) => {
+    //     const element = ref.current;
+
+    //     element.addEventListener('scroll', handleClick);
+    // })
 
     const baseTheta = 360 / count
     const boxesTheta = Array.from({ length: count }).map((r, i) => i * baseTheta)
@@ -46,42 +57,6 @@ export const Boxes = ({ count, onWheel }) => {
         )
     }
 
-    useEffect(() => {
-        setTheta((theta) => theta.map((t) => (t + 360 / 5) % 360))
-        refs.current.map((ref, i) => roll(theta[i], ref))
-        // roll(theta);
-    }, [onWheel]);
-
-    return <>
-        {refs.current.map((ref, i) => {
-            let { x, y } = getCoordinates(i * baseTheta)
-
-            return <Box
-                key={i}
-                ref={ref}
-                color={i * baseTheta}
-                position-x={x}
-                position-z={y}
-                rotation-y={x / 2}
-                scale={1}
-            />
-        })}
-    </>
-};
-
-export default function Experience() {
-    const [wheelListener, setWheelListener] = useState();
-    const ref = useRef()
-    // useEffect(() => {
-    //     const handleClick = event => {
-    //         console.log('Button clicked');
-    //     };
-
-    //     const element = ref.current;
-
-    //     element.addEventListener('scroll', handleClick);
-    // })
-
     return <>
         <Canvas
             camera={{
@@ -92,7 +67,8 @@ export default function Experience() {
                 // position: [0, 0, 2]
             }}
             onWheel={(e) => {
-                setWheelListener(e);
+                setTheta((theta) => theta.map((t) => (t + 360 / 5) % 360))
+                refs.current.map((ref, i) => roll(theta[i], ref))
             }}
         >
             {/* <OrbitControls /> */}
@@ -102,7 +78,19 @@ export default function Experience() {
             <ambientLight intensity={5} />
             <axesHelper args={[2, 2, 2]} />
 
-            <Boxes onWheel={wheelListener} count={5} />
+            {refs.current.map((ref, i) => {
+                let { x, y } = getCoordinates(i * baseTheta)
+
+                return <Box
+                    key={i}
+                    ref={ref}
+                    color={i * baseTheta}
+                    position-x={x}
+                    position-z={y}
+                    rotation-y={x / 2}
+                    scale={1}
+                />
+            })}
         </Canvas>
         {/* <div className="container">
             <div
