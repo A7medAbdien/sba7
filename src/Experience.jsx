@@ -42,18 +42,21 @@ export default function Experience() {
     const refs = useRef(
         Array.from({ length: count }).map(() => createRef())
     )
+    const scrollRef = useRef()
 
     const [theta, setTheta] = useState(boxesTheta);
 
-    // useEffect(() => {
-    //     const handleClick = event => {
-    //         console.log('Button clicked');
-    //     };
+    useEffect(() => {
+        const handleClick = event => {
+            console.log('Button clicked')
+            setTheta((theta) => theta.map((t) => (t + 360 / 5) % 360))
+            refs.current.map((ref, i) => roll(theta[i], ref))
+        };
 
-    //     const element = ref.current;
+        const element = scrollRef.current;
 
-    //     element.addEventListener('scroll', handleClick);
-    // })
+        element.addEventListener('scroll', handleClick);
+    })
 
     return <>
         <Canvas
@@ -84,14 +87,14 @@ export default function Experience() {
                 />
             })}
         </Canvas>
-        {/* <div className="container">
+        <div className="container">
             <div
-                ref={ref}
+                ref={scrollRef}
                 // onScroll={(e) => (console.log('helo'))}
                 className="scroll">
                 <div style={{ height: `200vh`, pointerEvents: 'none' }}></div>
             </div>
-        </div> */}
+        </div>
     </>
 }
 
