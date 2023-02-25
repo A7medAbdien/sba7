@@ -13,12 +13,28 @@ const getCoordinates = (angle, distance = 6) => {
     return { x, y, distance }
 }
 
-const Box = forwardRef(({ onWheel, color, bTheta, ...props }, ref) => {
+const Box = forwardRef(({ color, ...props }, ref) => {
+    return <>
+        <mesh ref={ref} {...props}>
+            <boxGeometry args={[2, 2.5, 1]} />
+            <meshStandardMaterial metalness={0} roughness={0} color={`rgb(${color + 100},0,0)`} />
+        </mesh>
+    </>
+})
 
-    const [theta, setTheta] = useState(bTheta);
 
-    const roll = (theta) => {
-        console.log(theta);
+export const Boxes = ({ count, onWheel }) => {
+
+    const baseTheta = 360 / count
+    const boxesTheta = Array.from({ length: count }).map((r, i) => i * baseTheta)
+
+    const refs = useRef(
+        Array.from({ length: count }).map(() => createRef())
+    )
+
+    const [theta, setTheta] = useState(boxesTheta);
+
+    const roll = (theta, ref) => {
         const { x, y: z } = getCoordinates(theta)
         gsap.to(
             ref.current.rotation,
@@ -41,36 +57,19 @@ const Box = forwardRef(({ onWheel, color, bTheta, ...props }, ref) => {
 
     useEffect(() => {
         setTheta((theta) => theta.map((t) => (t + 360 / 5) % 360))
-        roll(theta);
+        refs.current.map((ref, i) => roll(theta[i], ref))
+        // roll(theta);
     }, [onWheel]);
 
     return <>
-        <mesh ref={ref} {...props}>
-            <boxGeometry args={[2, 2.5, 1]} />
-            <meshStandardMaterial metalness={0} roughness={0} color={`rgb(${color + 100},0,0)`} />
-        </mesh>
-    </>
-})
-
-
-export const Boxes = ({ count, onWheel }) => {
-    const refs = useRef(
-        Array.from({ length: count }).map(() => createRef())
-    );
-
-    const theta = 360 / count
-    const bTheta = Array.from({ length: count }).map((r, i) => i * theta)
-    return <>
         <ScrollControls>
             {refs.current.map((ref, i) => {
-                let { x, y } = getCoordinates(i * theta)
+                let { x, y } = getCoordinates(i * baseTheta)
 
                 return <Box
-                    ref={ref}
-                    onWheel={onWheel}
-                    bTheta={bTheta}
-                    color={i * theta}
                     key={i}
+                    ref={ref}
+                    color={i * baseTheta}
                     position-x={x}
                     position-z={y}
                     rotation-y={x / 2}
