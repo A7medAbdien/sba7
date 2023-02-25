@@ -38,7 +38,7 @@ export default function Experience() {
             <ambientLight intensity={5} />
             <axesHelper args={[2, 2, 2]} />
 
-            <Boxes onWheel={wheelListener} count={1} />
+            <Boxes onWheel={wheelListener} count={5} />
         </Canvas>
         {/* <div className="container">
             <div
