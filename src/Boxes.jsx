@@ -1,4 +1,4 @@
-import { Float, useHelper } from '@react-three/drei';
+import { Float, ScrollControls, useHelper } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
 import gsap from 'gsap';
 import { useControls } from 'leva';
@@ -15,18 +15,10 @@ const getCoordinates = (angle, distance = 6) => {
 
 const Box = ({ onWheel, color, bTheta, ...props }) => {
 
+    const mesh = useRef()
     const [theta, setTheta] = useState(bTheta);
 
-    useEffect(() => {
-        if (onWheel) {
-            roll(onWheel);
-        }
-    }, [onWheel]);
-
-    const mesh = useRef()
-
     const roll = (e) => {
-
         setTheta((theta) => (theta + 360 / 5) % 360)
         const { x, y: z } = getCoordinates(theta)
         gsap.to(
@@ -49,8 +41,14 @@ const Box = ({ onWheel, color, bTheta, ...props }) => {
     }
 
 
-    return <>
+    useEffect(() => {
+        if (onWheel) {
+            roll(onWheel);
+        }
+    }, [onWheel]);
 
+
+    return <>
         <mesh
             ref={mesh}
             {...props}
@@ -66,19 +64,21 @@ export const Boxes = ({ count, onWheel }) => {
     const theta = 360 / count
 
     return <>
-        {[...Array(count)].map((ref, i) => {
-            let { x, y } = getCoordinates(i * theta)
+        <ScrollControls>
+            {[...Array(count)].map((ref, i) => {
+                let { x, y } = getCoordinates(i * theta)
 
-            return <Box
-                onWheel={onWheel}
-                bTheta={i * theta}
-                color={i * theta}
-                key={i}
-                position-x={x}
-                position-z={y}
-                rotation-y={x / 2}
-                scale={1}
-            />
-        })}
+                return <Box
+                    onWheel={onWheel}
+                    bTheta={i * theta}
+                    color={i * theta}
+                    key={i}
+                    position-x={x}
+                    position-z={y}
+                    rotation-y={x / 2}
+                    scale={1}
+                />
+            })}
+        </ScrollControls>
     </>
 };
