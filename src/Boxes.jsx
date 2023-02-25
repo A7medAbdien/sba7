@@ -62,20 +62,18 @@ export const Boxes = ({ count, onWheel }) => {
     }, [onWheel]);
 
     return <>
-        <ScrollControls>
-            {refs.current.map((ref, i) => {
-                let { x, y } = getCoordinates(i * baseTheta)
+        {refs.current.map((ref, i) => {
+            let { x, y } = getCoordinates(i * baseTheta)
 
-                return <Box
-                    key={i}
-                    ref={ref}
-                    color={i * baseTheta}
-                    position-x={x}
-                    position-z={y}
-                    rotation-y={x / 2}
-                    scale={1}
-                />
-            })}
-        </ScrollControls>
+            return <Box
+                key={i}
+                ref={ref}
+                color={i * baseTheta}
+                position-x={x}
+                position-z={y}
+                rotation-y={x / 2}
+                scale={1}
+            />
+        })}
     </>
 };
