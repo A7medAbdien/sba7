@@ -1,5 +1,5 @@
 import { OrbitControls, Sphere, Text } from '@react-three/drei';
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useThree } from '@react-three/fiber'
 import { Perf } from 'r3f-perf'
 import gsap from 'gsap';
 import { createRef, useEffect, useRef, useState } from 'react';
@@ -9,7 +9,7 @@ const duration = 2.5
 
 const getCoordinates = (angle, distance = 6) => {
     angle *= Math.PI / 180
-    let x = -distance * Math.cos(angle) + 1.75,
+    let x = -distance * Math.cos(angle) + 1.87,
         y = -distance * Math.sin(angle)
 
     return { x, y, distance }
@@ -44,6 +44,9 @@ const Scene = () => {
     const refs = useRef(
         Array.from({ length: count }).map(() => createRef())
     )
+
+    const { width } = useThree(state => state.viewport)
+
     let isRolling = false
     const rollRight = (direction) => {
         isRolling = true
@@ -62,7 +65,7 @@ const Scene = () => {
         <group>
             <Text
                 color="red"
-                position={[1, 0, 0]}
+                position={[width - Math.min(2, width * 0.6), 0, 0]}
                 scale={0.25}
                 onClick={(e) => isRolling ? null : rollRight(true)} >
                 -)
@@ -72,7 +75,7 @@ const Scene = () => {
             <Text
                 rotation-y={Math.PI}
                 color="red"
-                position={[-1, 0, 0]}
+                position={[-(width - Math.min(2, width * 0.6)), 0, 0]}
                 scale={0.25}
                 onClick={(e) => isRolling ? null : rollRight(false)} >
                 -)
@@ -106,11 +109,11 @@ export default function Experience() {
         }}
         >
             {/* <OrbitControls /> */}
-            <Perf position='top-left' />
+            {/* <Perf position='top-left' /> */}
 
 
             <ambientLight intensity={5} />
-            <axesHelper args={[2, 2, 2]} />
+            {/* <axesHelper args={[2, 2, 2]} /> */}
 
             <Scene />
         </Canvas>
