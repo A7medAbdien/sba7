@@ -36,14 +36,8 @@ const roll = (theta, ref) => {
     )
 }
 
-const Scene = () => {
-    const count = 5
-    const baseTheta = 360 / count
-    let boxesTheta = Array.from({ length: count }).map((r, i) => i * baseTheta)
 
-    const refs = useRef(
-        Array.from({ length: count }).map(() => createRef())
-    )
+export const Arrows = () => {
 
     const { width } = useThree(state => state.viewport)
 
@@ -60,6 +54,7 @@ const Scene = () => {
             isRolling = false
         }, duration * 1000);
     }
+
 
     return <>
         <group>
@@ -81,6 +76,20 @@ const Scene = () => {
                 -)
             </Text>
         </group>
+    </>
+}
+
+const Scene = () => {
+    const count = 5
+    const baseTheta = 360 / count
+    let boxesTheta = Array.from({ length: count }).map((r, i) => i * baseTheta)
+
+    const refs = useRef(
+        Array.from({ length: count }).map(() => createRef())
+    )
+
+    return <>
+        <Arrows />
 
         {refs.current.map((ref, i) => {
             let { x, y } = getCoordinates(i * baseTheta)
