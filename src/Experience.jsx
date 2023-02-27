@@ -55,7 +55,7 @@ export default function Experience() {
         refs.current.map((ref, i) => roll(boxesTheta[i], ref))
         setTimeout(() => {
             isRolling = false
-        }, 2000);
+        }, duration * 1000);
     }
 
     return <>
