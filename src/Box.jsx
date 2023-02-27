@@ -131,7 +131,6 @@ export const Box = forwardRef(({ ...props }, model) => {
         model.current.add(leftAnchorConnector.current)
         model.current.add(rightAnchorConnector.current)
         model.current.add(midAnchorMesh.current)
-        console.log(model.current.position);
     })
 
     return (
