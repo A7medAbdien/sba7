@@ -41,14 +41,14 @@ const roll = (theta, ref) => {
 const Scene = () => {
     const count = 5
     const baseTheta = 360 / count
+    let boxesTheta = Array.from({ length: count }).map((_, i) => i * baseTheta)
+    let isRolling = false
 
     const refs = useRef(
         Array.from({ length: count }).map(() => createRef())
     )
 
-    let isRolling = false
-    // const [isRolling, setIsRolling] = useState(false)
-    const rollRight = (direction) => {
+    const rollAll = (direction) => {
         isRolling = true
 
         direction ?
@@ -56,18 +56,16 @@ const Scene = () => {
             boxesTheta.map((t, i) => { boxesTheta[i] = (t + 360 / 5) % 360 }) :
             boxesTheta.map((t, i) => { boxesTheta[i] = (t - 360 / 5) % 360 })
         refs.current.map((ref, i) => roll(boxesTheta[i], ref))
+
         setTimeout(() => {
             isRolling = false
         }, duration * 1000);
     }
 
-    let boxesTheta = Array.from({ length: count }).map((_, i) => i * baseTheta)
-
-
     return <>
         <Arrows
-            rightAction={(e) => isRolling ? null : rollRight(true)}
-            leftAction={(e) => isRolling ? null : rollRight(false)}
+            rightAction={(e) => isRolling ? null : rollAll(true)}
+            leftAction={(e) => isRolling ? null : rollAll(false)}
         />
 
         {refs.current.map((ref, i) => {
