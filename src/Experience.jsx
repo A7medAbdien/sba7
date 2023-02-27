@@ -4,6 +4,7 @@ import { Perf } from 'r3f-perf'
 import gsap from 'gsap';
 import { createRef, useEffect, useRef, useState } from 'react';
 import { Box } from './Boxes'
+import { Arrows } from './Arrows';
 
 const duration = 2.5
 
@@ -36,33 +37,6 @@ const roll = (theta, ref) => {
     )
 }
 
-
-export const Arrows = ({ rightAction, leftAction }) => {
-
-    const { width } = useThree(state => state.viewport)
-
-    return <>
-        <group>
-            <Text
-                color="red"
-                position={[width - Math.min(2, width * 0.6), 0, 0]}
-                scale={0.25}
-                onClick={rightAction} >
-                -)
-            </Text>
-        </group>
-        <group>
-            <Text
-                rotation-y={Math.PI}
-                color="red"
-                position={[-(width - Math.min(2, width * 0.6)), 0, 0]}
-                scale={0.25}
-                onClick={leftAction} >
-                -)
-            </Text>
-        </group>
-    </>
-}
 
 const Scene = () => {
     const count = 5
