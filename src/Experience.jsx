@@ -1,10 +1,12 @@
-import { OrbitControls, Sphere, Text } from '@react-three/drei';
+import { OrbitControls, Sphere, SpotLight, Text, useHelper } from '@react-three/drei';
 import { Canvas, useThree } from '@react-three/fiber'
 import { Perf } from 'r3f-perf'
 import gsap from 'gsap';
 import { createRef, useEffect, useRef, useState } from 'react';
 import { Box } from './Boxes'
 import { Arrows } from './Arrows';
+import { useControls } from 'leva';
+import { SpotLightHelper } from 'three';
 
 const duration = 2.5
 
@@ -62,7 +64,52 @@ const Scene = () => {
         }, duration * 1000);
     }
 
+
+    const { position, target, decay, penumbra } = useControls('', {
+        position:
+        {
+            value: { x: 3, y: 5.5, z: 0.5 },
+            step: 0.01,
+            joystick: 'invertY'
+        },
+        target:
+        {
+            value: { x: 0.8, y: 0, z: -6 },
+            step: 0.01,
+            joystick: 'invertY'
+        },
+        decay:
+        {
+            value: 2,
+            step: 0.01,
+            min: 0,
+            max: 5
+        },
+        penumbra:
+        {
+            value: 1,
+            step: 0.01,
+            min: 1,
+            max: 2
+        }
+    })
+
+    const spotLight = useRef()
+    // useHelper(spotLight, SpotLightHelper)
     return <>
+
+        <SpotLight
+            ref={spotLight}
+            attenuation={5}
+            decay={decay}
+            penumbra={penumbra}
+            position={[position.x, position.y, position.z]}
+            angle={0.3}
+            distance={15}
+            intensity={10}
+            target-position={[target.x, target.y, target.z]}
+        />
+
         <Arrows
             rightAction={(e) => isRolling ? null : rollAll(true)}
             leftAction={(e) => isRolling ? null : rollAll(false)}
@@ -97,9 +144,8 @@ export default function Experience() {
             {/* <OrbitControls /> */}
             {/* <Perf position='top-left' /> */}
 
-
-            <ambientLight intensity={5} />
             {/* <axesHelper args={[2, 2, 2]} /> */}
+            <ambientLight intensity={0.2} />
 
             <Scene />
         </Canvas>
