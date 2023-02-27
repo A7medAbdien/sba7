@@ -7,6 +7,7 @@ import { Box } from './Boxes'
 import { Arrows } from './Arrows';
 import { useControls } from 'leva';
 import { SpotLightHelper } from 'three';
+import { Leva } from 'leva'
 
 const duration = 2.5
 
@@ -133,6 +134,7 @@ const Scene = () => {
 
 export default function Experience() {
     return <>
+        <Leva hidden />
         <Canvas camera={{
             fov: 40,
             near: 0.1,
