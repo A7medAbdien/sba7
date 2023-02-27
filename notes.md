@@ -11,9 +11,13 @@
             
 ## que
 
-I am trying to do such a scroll affect
+I am wondering how to do such a scroll affect
 
-what remain is to get the scrolling direction
+it seems to be an infinite scrolling and without scrollbar
+
+I was able to hide the scrollbar and do the scrolling, but it is not infinite and I can not know the direction of the scrolling
+
+App.jsx
 
 ```js
     useEffect(() => {
@@ -35,7 +39,7 @@ what remain is to get the scrolling direction
     
     return <>
         <Canvas>
-                <Experience/>
+            {/* Boxes */}
         </Canvas>
         <div className="container">
             <div
@@ -45,4 +49,51 @@ what remain is to get the scrolling direction
             </div>
         </div>
     </>
+```
+
+style.css
+
+```css
+html,
+body,
+#root {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+}
+
+.scroll {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    overflow-y: auto;
+    top: 0;
+    left: 0;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+
+.container {
+    height: 200px;
+    width: 350px;
+    background-color: #3c3c3c;
+    overflow-y: auto;
+
+    /* hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scroll::-webkit-scrollbar {
+    display: none;
+}
+
+/* hide scrollbar for chrome, safari and opera */
+.container::-webkit-scrollbar {
+    display: none;
+}
 ```
