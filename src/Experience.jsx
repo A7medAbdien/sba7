@@ -65,9 +65,13 @@ export default function Experience() {
     // }, [])
     // const [isRolling, setIsRolling] = useState(false)
     let isRolling = false
-    const rollRight = (params) => {
+    const rollRight = (direction) => {
         isRolling = true
-        boxesTheta.map((t, i) => { boxesTheta[i] = (t + 360 / 5) % 360 })
+
+        direction ?
+            //if true to right, if false to left
+            boxesTheta.map((t, i) => { boxesTheta[i] = (t + 360 / 5) % 360 }) :
+            boxesTheta.map((t, i) => { boxesTheta[i] = (t - 360 / 5) % 360 })
         refs.current.map((ref, i) => roll(boxesTheta[i], ref))
         setTimeout(() => {
             isRolling = false
@@ -93,7 +97,13 @@ export default function Experience() {
             <Sphere
                 scale={0.25}
                 position={[1, 0, 0]}
-                onClick={(e) => isRolling ? null : rollRight()}
+                onClick={(e) => isRolling ? null : rollRight(true)}
+            />
+
+            <Sphere
+                scale={0.25}
+                position={[-1, 0, 0]}
+                onClick={(e) => isRolling ? null : rollRight(false)}
             />
 
             {refs.current.map((ref, i) => {
