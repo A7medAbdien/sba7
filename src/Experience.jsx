@@ -36,7 +36,7 @@ const roll = (theta, ref) => {
     )
 }
 
-export default function Experience() {
+const Scene = () => {
     const count = 5
     const baseTheta = 360 / count
     let boxesTheta = Array.from({ length: count }).map((r, i) => i * baseTheta)
@@ -59,6 +59,44 @@ export default function Experience() {
     }
 
     return <>
+        <group>
+            <Text
+                color="red"
+                position={[1, 0, 0]}
+                scale={0.25}
+                onClick={(e) => isRolling ? null : rollRight(true)} >
+                -)
+            </Text>
+        </group>
+        <group>
+            <Text
+                rotation-y={Math.PI}
+                color="red"
+                position={[-1, 0, 0]}
+                scale={0.25}
+                onClick={(e) => isRolling ? null : rollRight(false)} >
+                -)
+            </Text>
+        </group>
+
+        {refs.current.map((ref, i) => {
+            let { x, y } = getCoordinates(i * baseTheta)
+
+            return <Box
+                key={i}
+                ref={ref}
+                color={i * baseTheta}
+                position-x={x}
+                position-z={y}
+                rotation-y={x / 2}
+                scale={1}
+            />
+        })}
+    </>
+}
+
+export default function Experience() {
+    return <>
         <Canvas camera={{
             fov: 40,
             near: 0.1,
@@ -74,39 +112,7 @@ export default function Experience() {
             <ambientLight intensity={5} />
             <axesHelper args={[2, 2, 2]} />
 
-            <group>
-                <Text
-                    color="red"
-                    position={[1, 0, 0]}
-                    scale={0.25}
-                    onClick={(e) => isRolling ? null : rollRight(true)} >
-                    -)
-                </Text>
-            </group>
-            <group>
-                <Text
-                    rotation-y={Math.PI}
-                    color="red"
-                    position={[-1, 0, 0]}
-                    scale={0.25}
-                    onClick={(e) => isRolling ? null : rollRight(false)} >
-                    -)
-                </Text>
-            </group>
-
-            {refs.current.map((ref, i) => {
-                let { x, y } = getCoordinates(i * baseTheta)
-
-                return <Box
-                    key={i}
-                    ref={ref}
-                    color={i * baseTheta}
-                    position-x={x}
-                    position-z={y}
-                    rotation-y={x / 2}
-                    scale={1}
-                />
-            })}
+            <Scene />
         </Canvas>
     </>
 }
