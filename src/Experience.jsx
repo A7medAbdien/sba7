@@ -1,13 +1,13 @@
+import { Box } from './Box.jsx'
 import { OrbitControls, Sphere, SpotLight, Text, useHelper } from '@react-three/drei';
 import { Canvas, useThree } from '@react-three/fiber'
 import { Perf } from 'r3f-perf'
 import gsap from 'gsap';
 import { createRef, useEffect, useRef, useState } from 'react';
-import { Box } from './Boxes'
-import { Arrows } from './Arrows';
-import { useControls } from 'leva';
+import { Arrows } from './components/Arrows';
+import { Leva, useControls } from 'leva';
 import { SpotLightHelper } from 'three';
-import { Leva } from 'leva'
+import useRunOnce from './useRunOnce.jsx';
 
 const duration = 2.5
 
@@ -41,7 +41,7 @@ const roll = (theta, ref) => {
 }
 
 
-const Scene = () => {
+const SceneContainer = () => {
     const count = 5
     const baseTheta = 360 / count
     let boxesTheta = Array.from({ length: count }).map((_, i) => i * baseTheta)
@@ -65,7 +65,43 @@ const Scene = () => {
         }, duration * 1000);
     }
 
+    useRunOnce({
+        fn: () => {
+            rollAll(true);
+        }
+    });
 
+    return <>
+        <Arrows
+            rightAction={(e) => isRolling ? null : rollAll(true)}
+            leftAction={(e) => isRolling ? null : rollAll(false)}
+        />
+
+        {refs.current.map((ref, i) => {
+            let { x, y } = getCoordinates(i * baseTheta)
+
+            return <Box
+                key={i}
+                ref={ref}
+                position-x={x}
+                position-z={y}
+                rotation-y={x / 2}
+            />
+        })}
+    </>
+}
+
+
+export default function Experience() {
+
+    /**
+     * Leva
+    */
+    const spotLight = useRef()
+    // useHelper(spotLight, SpotLightHelper)
+    useEffect(() => {
+        spotLight.current.target.updateMatrixWorld()
+    })
     const { position, target, decay, penumbra } = useControls('', {
         position:
         {
@@ -95,62 +131,20 @@ const Scene = () => {
         }
     })
 
-    const spotLight = useRef()
-    // useHelper(spotLight, SpotLightHelper)
     return <>
 
-        <SpotLight
-            ref={spotLight}
-            attenuation={5}
-            decay={decay}
-            penumbra={penumbra}
-            position={[position.x, position.y, position.z]}
-            angle={0.3}
-            distance={15}
-            intensity={10}
-            target-position={[target.x, target.y, target.z]}
-        />
 
-        <Arrows
-            rightAction={(e) => isRolling ? null : rollAll(true)}
-            leftAction={(e) => isRolling ? null : rollAll(false)}
-        />
+        <Perf position="top-left" />
+        {/* <axesHelper scale={5} /> */}
+        {/* <OrbitControls /> */}
+        {/* <Environment preset="studio" />  */}
+        {/* <fog attach="fog" args={["#000", 2, 100]} /> */}
 
-        {refs.current.map((ref, i) => {
-            let { x, y } = getCoordinates(i * baseTheta)
+        <spotLight ref={spotLight} attenuation={5} decay={decay} penumbra={penumbra} position={[position.x, position.y, position.z]} angle={0.3} distance={15} intensity={10} target-position={[target.x, target.y, target.z]} />
+        <ambientLight intensity={0.25} />
 
-            return <Box
-                key={i}
-                ref={ref}
-                color={i * baseTheta}
-                position-x={x}
-                position-z={y}
-                rotation-y={x / 2}
-                scale={1}
-            />
-        })}
+        <SceneContainer />
+
     </>
-}
 
-export default function Experience() {
-    return <>
-        <Leva hidden />
-        <Canvas camera={{
-            fov: 40,
-            near: 0.1,
-            far: 100,
-            // position: [0, 20, 5]
-            position: [0, 0, 2]
-        }}
-        >
-            {/* <OrbitControls /> */}
-            {/* <Perf position='top-left' /> */}
-
-            {/* <axesHelper args={[2, 2, 2]} /> */}
-            <ambientLight intensity={0.2} />
-
-            <Scene />
-        </Canvas>
-    </>
-}
-
+};
