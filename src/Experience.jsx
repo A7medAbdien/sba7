@@ -45,21 +45,21 @@ export default function Experience() {
     const scrollRef = useRef()
 
     useEffect(() => {
-        const handleClick = event => {
+        const handleScroll = event => {
 
-            element.removeEventListener('scroll', handleClick);
+            element.removeEventListener('scroll', handleScroll);
 
             boxesTheta.map((t, i) => { boxesTheta[i] = (t + 360 / 5) % 360 })
             refs.current.map((ref, i) => roll(boxesTheta[i], ref))
 
             setTimeout(() => {
-                element.addEventListener('scroll', handleClick);
-            }, 2000);
+                element.addEventListener('scroll', handleScroll);
+            }, 1500);
         };
 
         const element = scrollRef.current;
 
-        element.addEventListener('scroll', handleClick);
+        element.addEventListener('scroll', handleScroll);
     }, [])
 
     return <>
@@ -88,7 +88,6 @@ export default function Experience() {
         <div className="container">
             <div
                 ref={scrollRef}
-                // onScroll={(e) => (console.log('helo'))}
                 className="scroll">
                 <div style={{ height: `200vh`, pointerEvents: 'none' }}></div>
             </div>
