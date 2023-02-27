@@ -1,4 +1,4 @@
-import { OrbitControls } from '@react-three/drei';
+import { OrbitControls, Sphere } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber'
 import { Perf } from 'r3f-perf'
 import gsap from 'gsap';
@@ -46,23 +46,33 @@ export default function Experience() {
     )
     const scrollRef = useRef()
 
-    useEffect(() => {
-        const handleScroll = event => {
+    // useEffect(() => {
+    //     const handleScroll = event => {
 
-            element.removeEventListener('scroll', handleScroll);
+    //         element.removeEventListener('scroll', handleScroll);
 
-            boxesTheta.map((t, i) => { boxesTheta[i] = (t + 360 / 5) % 360 })
-            refs.current.map((ref, i) => roll(boxesTheta[i], ref))
+    //         boxesTheta.map((t, i) => { boxesTheta[i] = (t + 360 / 5) % 360 })
+    //         refs.current.map((ref, i) => roll(boxesTheta[i], ref))
 
-            setTimeout(() => {
-                element.addEventListener('scroll', handleScroll);
-            }, duration * 1000);
-        };
+    //         setTimeout(() => {
+    //             element.addEventListener('scroll', handleScroll);
+    //         }, duration * 1000);
+    //     };
 
-        const element = scrollRef.current;
+    //     const element = scrollRef.current;
 
-        element.addEventListener('scroll', handleScroll);
-    }, [])
+    //     element.addEventListener('scroll', handleScroll);
+    // }, [])
+    // const [isRolling, setIsRolling] = useState(false)
+    let isRolling = false
+    const rollRight = (params) => {
+        isRolling = true
+        boxesTheta.map((t, i) => { boxesTheta[i] = (t + 360 / 5) % 360 })
+        refs.current.map((ref, i) => roll(boxesTheta[i], ref))
+        setTimeout(() => {
+            isRolling = false
+        }, 2000);
+    }
 
     return <>
         <Canvas camera={{
@@ -80,6 +90,12 @@ export default function Experience() {
             <ambientLight intensity={5} />
             <axesHelper args={[2, 2, 2]} />
 
+            <Sphere
+                scale={0.25}
+                position={[1, 0, 0]}
+                onClick={(e) => isRolling ? null : rollRight()}
+            />
+
             {refs.current.map((ref, i) => {
                 let { x, y } = getCoordinates(i * baseTheta)
 
@@ -94,13 +110,13 @@ export default function Experience() {
                 />
             })}
         </Canvas>
-        <div className="container">
+        {/* <div className="container">
             <div
                 ref={scrollRef}
                 className="scroll">
                 <div style={{ height: `200vh`, pointerEvents: 'none' }}></div>
             </div>
-        </div>
+        </div> */}
     </>
 }
 
