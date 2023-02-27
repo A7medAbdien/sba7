@@ -1,4 +1,4 @@
-import { OrbitControls, Sphere } from '@react-three/drei';
+import { OrbitControls, Sphere, Text } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber'
 import { Perf } from 'r3f-perf'
 import gsap from 'gsap';
@@ -74,17 +74,25 @@ export default function Experience() {
             <ambientLight intensity={5} />
             <axesHelper args={[2, 2, 2]} />
 
-            <Sphere
-                scale={0.25}
-                position={[1, 0, 0]}
-                onClick={(e) => isRolling ? null : rollRight(true)}
-            />
-
-            <Sphere
-                scale={0.25}
-                position={[-1, 0, 0]}
-                onClick={(e) => isRolling ? null : rollRight(false)}
-            />
+            <group>
+                <Text
+                    color="red"
+                    position={[1, 0, 0]}
+                    scale={0.25}
+                    onClick={(e) => isRolling ? null : rollRight(true)} >
+                    -)
+                </Text>
+            </group>
+            <group>
+                <Text
+                    rotation-y={Math.PI}
+                    color="red"
+                    position={[-1, 0, 0]}
+                    scale={0.25}
+                    onClick={(e) => isRolling ? null : rollRight(false)} >
+                    -)
+                </Text>
+            </group>
 
             {refs.current.map((ref, i) => {
                 let { x, y } = getCoordinates(i * baseTheta)
