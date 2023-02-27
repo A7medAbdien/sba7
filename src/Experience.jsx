@@ -44,26 +44,6 @@ export default function Experience() {
     const refs = useRef(
         Array.from({ length: count }).map(() => createRef())
     )
-    const scrollRef = useRef()
-
-    // useEffect(() => {
-    //     const handleScroll = event => {
-
-    //         element.removeEventListener('scroll', handleScroll);
-
-    //         boxesTheta.map((t, i) => { boxesTheta[i] = (t + 360 / 5) % 360 })
-    //         refs.current.map((ref, i) => roll(boxesTheta[i], ref))
-
-    //         setTimeout(() => {
-    //             element.addEventListener('scroll', handleScroll);
-    //         }, duration * 1000);
-    //     };
-
-    //     const element = scrollRef.current;
-
-    //     element.addEventListener('scroll', handleScroll);
-    // }, [])
-    // const [isRolling, setIsRolling] = useState(false)
     let isRolling = false
     const rollRight = (direction) => {
         isRolling = true
@@ -120,13 +100,6 @@ export default function Experience() {
                 />
             })}
         </Canvas>
-        {/* <div className="container">
-            <div
-                ref={scrollRef}
-                className="scroll">
-                <div style={{ height: `200vh`, pointerEvents: 'none' }}></div>
-            </div>
-        </div> */}
     </>
 }
 
