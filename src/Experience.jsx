@@ -5,6 +5,8 @@ import gsap from 'gsap';
 import { createRef, useEffect, useRef, useState } from 'react';
 import { Box } from './Boxes'
 
+const duration = 2.5
+
 const getCoordinates = (angle, distance = 6) => {
     angle *= Math.PI / 180
     let x = -distance * Math.cos(angle) + 1.75,
@@ -18,7 +20,7 @@ const roll = (theta, ref) => {
     gsap.to(
         ref.current.rotation,
         {
-            duration: 1.5,
+            duration: duration,
             ease: 'power2.inOut',
             y: x / 2,
         }
@@ -26,7 +28,7 @@ const roll = (theta, ref) => {
     gsap.to(
         ref.current.position,
         {
-            duration: 1.5,
+            duration: duration,
             ease: 'power2.inOut',
             x: x,
             z: z
@@ -54,7 +56,7 @@ export default function Experience() {
 
             setTimeout(() => {
                 element.addEventListener('scroll', handleScroll);
-            }, 1500);
+            }, duration * 1000);
         };
 
         const element = scrollRef.current;
@@ -63,7 +65,14 @@ export default function Experience() {
     }, [])
 
     return <>
-        <Canvas camera={{ position: [0, 20, 5] }}>
+        <Canvas camera={{
+            fov: 40,
+            near: 0.1,
+            far: 100,
+            // position: [0, 20, 5]
+            position: [0, 0, 2]
+        }}
+        >
             {/* <OrbitControls /> */}
             <Perf position='top-left' />
 
