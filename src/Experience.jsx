@@ -37,11 +37,43 @@ const roll = (theta, ref) => {
 }
 
 
-export const Arrows = () => {
+export const Arrows = ({ rightAction, leftAction }) => {
 
     const { width } = useThree(state => state.viewport)
 
+    return <>
+        <group>
+            <Text
+                color="red"
+                position={[width - Math.min(2, width * 0.6), 0, 0]}
+                scale={0.25}
+                onClick={rightAction} >
+                -)
+            </Text>
+        </group>
+        <group>
+            <Text
+                rotation-y={Math.PI}
+                color="red"
+                position={[-(width - Math.min(2, width * 0.6)), 0, 0]}
+                scale={0.25}
+                onClick={leftAction} >
+                -)
+            </Text>
+        </group>
+    </>
+}
+
+const Scene = () => {
+    const count = 5
+    const baseTheta = 360 / count
+
+    const refs = useRef(
+        Array.from({ length: count }).map(() => createRef())
+    )
+
     let isRolling = false
+    // const [isRolling, setIsRolling] = useState(false)
     const rollRight = (direction) => {
         isRolling = true
 
@@ -55,41 +87,14 @@ export const Arrows = () => {
         }, duration * 1000);
     }
 
+    let boxesTheta = Array.from({ length: count }).map((_, i) => i * baseTheta)
+
 
     return <>
-        <group>
-            <Text
-                color="red"
-                position={[width - Math.min(2, width * 0.6), 0, 0]}
-                scale={0.25}
-                onClick={(e) => isRolling ? null : rollRight(true)} >
-                -)
-            </Text>
-        </group>
-        <group>
-            <Text
-                rotation-y={Math.PI}
-                color="red"
-                position={[-(width - Math.min(2, width * 0.6)), 0, 0]}
-                scale={0.25}
-                onClick={(e) => isRolling ? null : rollRight(false)} >
-                -)
-            </Text>
-        </group>
-    </>
-}
-
-const Scene = () => {
-    const count = 5
-    const baseTheta = 360 / count
-    let boxesTheta = Array.from({ length: count }).map((r, i) => i * baseTheta)
-
-    const refs = useRef(
-        Array.from({ length: count }).map(() => createRef())
-    )
-
-    return <>
-        <Arrows />
+        <Arrows
+            rightAction={(e) => isRolling ? null : rollRight(true)}
+            leftAction={(e) => isRolling ? null : rollRight(false)}
+        />
 
         {refs.current.map((ref, i) => {
             let { x, y } = getCoordinates(i * baseTheta)
