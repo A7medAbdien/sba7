@@ -32,7 +32,6 @@ export const Cap = ({ anchor, free }) => {
     const { midAnchor, midAnchorMesh, midAnchorNode } = anchor
     const { freeCap, freeCapMesh, freeCapNode } = free
 
-
     useFrame(() => {
         const pos = new Vector3()
         midAnchorMesh.current.getWorldPosition(pos)

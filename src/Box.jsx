@@ -14,6 +14,7 @@ import { useControls } from "leva";
 import { createRef, forwardRef, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Model } from "./components/Model";
 import { Perf } from "r3f-perf";
+import { CapRope } from "./components/CapRope";
 
 
 const RopeContainer = ({ nodes, anchor }) => {
@@ -71,6 +72,7 @@ export const Box = forwardRef(({ ...props }, model) => {
     // const model = createRef()
     const leftAnchorConnector = useRef()
     const rightAnchorConnector = useRef()
+    const midAnchorConnector = useRef()
     const midAnchor = useRef()
     const midAnchorMesh = useRef()
     const freeCap = useRef()
@@ -119,6 +121,7 @@ export const Box = forwardRef(({ ...props }, model) => {
     const ropeNodes = scene.children.slice(24, 38)
     const leftAnchorPos = nodes.Sphere018.position
     const rightAnchorPos = nodes.Sphere031.position
+    const midAnchorPos = nodes.Sphere036.position
     const midAnchorNode = nodes.Sphere036
     const freeCapNode = { big: nodes.Sphere014, small: nodes.Sphere }
     useLayoutEffect(() => {
@@ -131,6 +134,7 @@ export const Box = forwardRef(({ ...props }, model) => {
     useEffect(() => {
         model.current.add(leftAnchorConnector.current)
         model.current.add(rightAnchorConnector.current)
+        model.current.add(midAnchorConnector.current)
         model.current.add(midAnchorMesh.current)
     })
 
@@ -147,15 +151,16 @@ export const Box = forwardRef(({ ...props }, model) => {
             </Float>
             <group ref={leftAnchorConnector} position={leftAnchorPos} />
             <group ref={rightAnchorConnector} position={rightAnchorPos} />
+            <group ref={midAnchorConnector} position={midAnchorPos} />
 
             <group>
                 <Physics
-                    gravity={[0, -11, 0]}
+                // paused
                 >
                     <RopeContainer anchor={{ leftAnchorConnector, rightAnchorConnector }} nodes={ropeNodes} />
                     <Cap anchor={{ midAnchor, midAnchorMesh, midAnchorNode }} free={{ freeCap, freeCapMesh, freeCapNode }} />
-
-                    <Debug />
+                    {/* <CapRope anchor={{ midAnchorConnector, midAnchorPos }} /> */}
+                    {/* <Debug /> */}
                 </Physics>
             </group>
             {/* </group> */}

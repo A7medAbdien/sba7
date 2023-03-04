@@ -15,32 +15,34 @@ const RopeSegment = forwardRef(({ position, component, type }, ref) => {
         <RigidBody
             restitution={0}
             ref={ref}
-            colliders={"ball"}
             type={type}
             position={position}
+        // friction={3}
         >
             {component}
         </RigidBody >
     );
 });
 
-const RopeJoint = ({ a, b }) => {
+const RopeJoint = ({ a, b, radius }) => {
+    const jointRadius = radius
     useSphericalJoint(a, b, [
-        [0, 0.5, 0],
-        [0, -0.5, 0]
+        [0, jointRadius, 0],
+        [0, -jointRadius, 0]
     ]);
     return null;
 };
 
 export const CapRope = ({ anchor }) => {
-    const { midAnchor, midAnchorMesh, midAnchorNode } = anchor
+    const { midAnchorConnector, midAnchorPos } = anchor
+    const radius = 0.05
     const refs = useRef(
-        Array.from({ length: 5 }).map(() => createRef())
+        Array.from({ length: 8 }).map(() => createRef())
     );
 
     useFrame(() => {
         const pos = new Vector3()
-        midAnchorMesh.current.getWorldPosition(pos)
+        midAnchorConnector.current.getWorldPosition(pos)
         refs.current[0].current.setTranslation(new Vector3(
             pos.x,
             pos.y,
@@ -55,13 +57,11 @@ export const CapRope = ({ anchor }) => {
                     ref={ref}
                     key={i}
                     position={[
-                        midAnchorNode.position.x,
-                        midAnchorNode.position.y - i * 0.5,
-                        midAnchorNode.position.z]}
+                        midAnchorPos.x,
+                        midAnchorPos.y - i * 2 * radius,
+                        midAnchorPos.z]}
                     component={
-                        <Sphere
-                            ref={i === 0 ? midAnchorMesh : null}
-                            args={[0.5]}>
+                        <Sphere args={[radius]}>
                             <meshStandardMaterial />
                         </Sphere>
                     }
@@ -72,7 +72,7 @@ export const CapRope = ({ anchor }) => {
             {refs.current.map(
                 (ref, i) =>
                     i > 0 && (
-                        <RopeJoint a={refs.current[i]} b={refs.current[i - 1]} key={i} />
+                        <RopeJoint a={refs.current[i]} b={refs.current[i - 1]} key={i} radius={radius} />
                     )
             )}
         </group>
