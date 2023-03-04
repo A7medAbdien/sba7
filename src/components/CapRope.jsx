@@ -34,26 +34,23 @@ const RopeJoint = ({ a, b }) => {
 
 export const CapRope = ({ anchor }) => {
     const { midAnchor, midAnchorMesh, midAnchorNode } = anchor
-
     const refs = useRef(
         Array.from({ length: 5 }).map(() => createRef())
     );
-    console.log(midAnchorNode.position);
 
-    // useFrame(() => {
-    //     const pos = new Vector3()
-    //     midAnchorMesh.current.getWorldPosition(pos)
-    //     midAnchor.current.setTranslation(new Vector3(
-    //         pos.x,
-    //         pos.y,
-    //         pos.z,
-    //     ))
-    // })
+    useFrame(() => {
+        const pos = new Vector3()
+        midAnchorMesh.current.getWorldPosition(pos)
+        refs.current[0].current.setTranslation(new Vector3(
+            pos.x,
+            pos.y,
+            pos.z,
+        ))
+    })
 
     return (
         <group>
             {refs.current.map((ref, i) => {
-                console.log(midAnchorNode.position.y - i * 0.5);
                 return (<RopeSegment
                     ref={ref}
                     key={i}
