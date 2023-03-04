@@ -155,7 +155,8 @@ export const Box = forwardRef(({ ...props }, model) => {
 
             <group>
                 <Physics
-                // paused
+                    // paused
+                    gravity={[0, -11, 0]}
                 >
                     <RopeContainer anchor={{ leftAnchorConnector, rightAnchorConnector }} nodes={ropeNodes} />
                     <Cap anchor={{ midAnchor, midAnchorMesh, midAnchorNode }} free={{ freeCap, freeCapMesh, freeCapNode }} />

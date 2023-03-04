@@ -134,9 +134,9 @@ export default function Experience() {
     return <>
 
 
-        <Perf position="top-left" />
+        {/* <Perf position="top-left" /> */}
         {/* <axesHelper scale={5} /> */}
-        <OrbitControls />
+        {/* <OrbitControls /> */}
         {/* <Environment preset="studio" />  */}
         {/* <fog attach="fog" args={["#000", 2, 100]} /> */}
 
