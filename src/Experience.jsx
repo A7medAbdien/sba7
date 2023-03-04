@@ -42,7 +42,7 @@ const roll = (theta, ref) => {
 
 
 const SceneContainer = () => {
-    const count = 5
+    const count = 1
     const baseTheta = 360 / count
     let boxesTheta = Array.from({ length: count }).map((_, i) => i * baseTheta)
     let isRolling = false
@@ -134,9 +134,9 @@ export default function Experience() {
     return <>
 
 
-        {/* <Perf position="top-left" /> */}
+        <Perf position="top-left" />
         {/* <axesHelper scale={5} /> */}
-        {/* <OrbitControls /> */}
+        <OrbitControls />
         {/* <Environment preset="studio" />  */}
         {/* <fog attach="fog" args={["#000", 2, 100]} /> */}
 

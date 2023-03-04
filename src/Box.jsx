@@ -5,6 +5,7 @@ import {
     useGLTF,
 } from "@react-three/drei";
 import {
+    Debug,
     Physics,
 } from "@react-three/rapier";
 import { Rope } from "./components/Rope";
@@ -153,7 +154,8 @@ export const Box = forwardRef(({ ...props }, model) => {
                 >
                     <RopeContainer anchor={{ leftAnchorConnector, rightAnchorConnector }} nodes={ropeNodes} />
                     <Cap anchor={{ midAnchor, midAnchorMesh, midAnchorNode }} free={{ freeCap, freeCapMesh, freeCapNode }} />
-                    {/* <Debug /> */}
+
+                    <Debug />
                 </Physics>
             </group>
             {/* </group> */}
