@@ -26,8 +26,8 @@ const RopeSegment = forwardRef(({ position, component, type }, ref) => {
 
 const RopeJoint = ({ a, b }) => {
     useSphericalJoint(a, b, [
-        [0, -0.5, 0],
-        [0, 0.5, 0]
+        [0, 0.5, 0],
+        [0, -0.5, 0]
     ]);
     return null;
 };
@@ -38,35 +38,38 @@ export const CapRope = ({ anchor }) => {
     const refs = useRef(
         Array.from({ length: 5 }).map(() => createRef())
     );
+    console.log(midAnchorNode.position);
 
-    useFrame(() => {
-        // const pos = new Vector3()
-        // midAnchorMesh.current.getWorldPosition(pos)
-        // midAnchor.current.setTranslation(new Vector3(
-        //     pos.x,
-        //     pos.y,
-        //     pos.z,
-        // ))
-    })
+    // useFrame(() => {
+    //     const pos = new Vector3()
+    //     midAnchorMesh.current.getWorldPosition(pos)
+    //     midAnchor.current.setTranslation(new Vector3(
+    //         pos.x,
+    //         pos.y,
+    //         pos.z,
+    //     ))
+    // })
 
     return (
-        <group >
+        <group>
             {refs.current.map((ref, i) => {
-                return (
-                    <RopeSegment
-                        ref={ref}
-                        key={i}
-                        position-x={midAnchorNode.position.x}
-                        position-y={midAnchorNode.position.y * i}
-                        position-z={midAnchorNode.position.z}
-                        component={
-                            <Sphere args={[0.1]}>
-                                <meshStandardMaterial />
-                            </Sphere>
-                        }
-                        type={i === 0 ? "kinematicPosition" : "dynamic"}
-                    />
-                );
+                console.log(midAnchorNode.position.y - i * 0.5);
+                return (<RopeSegment
+                    ref={ref}
+                    key={i}
+                    position={[
+                        midAnchorNode.position.x,
+                        midAnchorNode.position.y - i * 0.5,
+                        midAnchorNode.position.z]}
+                    component={
+                        <Sphere
+                            ref={i === 0 ? midAnchorMesh : null}
+                            args={[0.5]}>
+                            <meshStandardMaterial />
+                        </Sphere>
+                    }
+                    type={i === 0 ? "kinematicPosition" : "dynamic"}
+                />)
             })}
 
             {refs.current.map(
