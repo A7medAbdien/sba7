@@ -4,72 +4,46 @@ import { Perf } from 'r3f-perf'
 import gsap from 'gsap';
 import { createRef, useEffect, useRef, useState } from 'react';
 import { Box } from './Boxes'
+import { Arrows } from './Arrows';
 
-const getCoordinates = (angle, distance = 6) => {
-    angle *= Math.PI / 180
-    let x = -distance * Math.cos(angle) + 1.75,
-        y = -distance * Math.sin(angle)
-
-    return { x, y, distance }
-}
-
-const roll = (theta, ref) => {
-    const { x, y: z } = getCoordinates(theta)
-    gsap.to(
-        ref.current.rotation,
-        {
-            duration: 1.5,
-            ease: 'power2.inOut',
-            y: x / 2,
-        }
-    )
-    gsap.to(
-        ref.current.position,
-        {
-            duration: 1.5,
-            ease: 'power2.inOut',
-            x: x,
-            z: z
-        }
-    )
-}
-
+const duration = 2.5
 export default function Experience() {
     const count = 5
     const baseTheta = 360 / count
-    let boxesTheta = Array.from({ length: count }).map((r, i) => i * baseTheta)
+    let boxesTheta = Array.from({ length: count }).map((_, i) => i * baseTheta)
+    let isRolling = false
 
     const refs = useRef(
         Array.from({ length: count }).map(() => createRef())
     )
-    const scrollRef = useRef()
 
-    useEffect(() => {
-        const handleClick = event => {
+    const rollAll = (direction) => {
+        isRolling = true
 
-            element.removeEventListener('scroll', handleClick);
+        direction ?
+            //if true to right, if false to left
+            boxesTheta.map((t, i) => { boxesTheta[i] = (t + 360 / 5) % 360 }) :
+            boxesTheta.map((t, i) => { boxesTheta[i] = (t - 360 / 5) % 360 })
+        refs.current.map((ref, i) => roll(boxesTheta[i], ref))
 
-            boxesTheta.map((t, i) => { boxesTheta[i] = (t + 360 / 5) % 360 })
-            refs.current.map((ref, i) => roll(boxesTheta[i], ref))
-
-            setTimeout(() => {
-                element.addEventListener('scroll', handleClick);
-            }, 2000);
-        };
-
-        const element = scrollRef.current;
-
-        element.addEventListener('scroll', handleClick);
-    }, [])
+        setTimeout(() => {
+            isRolling = false
+        }, duration * 1000);
+    }
 
     return <>
-        <Canvas camera={{ position: [0, 20, 5] }}>
+        <Canvas camera={{
+            fov: 40,
+            position: [0, 0, 2]
+        }}>
             {/* <OrbitControls /> */}
             <Perf position='top-left' />
-
-
-            <ambientLight intensity={5} />
             <axesHelper args={[2, 2, 2]} />
+
+            <Arrows
+                rightAction={(e) => isRolling ? null : rollAll(true)}
+                leftAction={(e) => isRolling ? null : rollAll(false)}
+            />
 
             {refs.current.map((ref, i) => {
                 let { x, y } = getCoordinates(i * baseTheta)
@@ -85,14 +59,34 @@ export default function Experience() {
                 />
             })}
         </Canvas>
-        <div className="container">
-            <div
-                ref={scrollRef}
-                // onScroll={(e) => (console.log('helo'))}
-                className="scroll">
-                <div style={{ height: `200vh`, pointerEvents: 'none' }}></div>
-            </div>
-        </div>
     </>
 }
 
+const getCoordinates = (angle, distance = 6) => {
+    angle *= Math.PI / 180
+    let x = -distance * Math.cos(angle) + 1.75,
+        y = -distance * Math.sin(angle)
+
+    return { x, y, distance }
+}
+
+const roll = (theta, ref) => {
+    const { x, y: z } = getCoordinates(theta)
+    gsap.to(
+        ref.current.rotation,
+        {
+            duration: duration,
+            ease: 'power2.inOut',
+            y: x / 2,
+        }
+    )
+    gsap.to(
+        ref.current.position,
+        {
+            duration: duration,
+            ease: 'power2.inOut',
+            x: x,
+            z: z
+        }
+    )
+}
